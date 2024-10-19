@@ -1,84 +1,76 @@
+ï»¿using System.IO;
 using UnityEditor;
-using UnityEngine;
-using System.IO;
 
-//‹N“®‚ÉÀs
+//èµ·å‹•æ™‚ã«å®Ÿè¡Œ
 [InitializeOnLoad]
 public class FolderKeeper : AssetPostprocessor
 {
-
-    //ƒL[ƒp[‚Ì–¼‘O
+    //ã‚­ãƒ¼ãƒ‘ãƒ¼ã®åå‰
     public static readonly string keeperName = ".gitkeep";
 
-    //ƒRƒ“ƒXƒgƒ‰ƒNƒ^i‹N“®‚ÉŒÄ‚Ño‚³‚ê‚éj
     static FolderKeeper()
     {
-        //ˆ—‚ğŒÄ‚Ño‚·
+        //å‡¦ç†ã‚’å‘¼ã³å‡ºã™
         SetKeepers();
     }
 
-    //ƒAƒZƒbƒgXV‚ÉÀs
+    //ã‚¢ã‚»ãƒƒãƒˆæ›´æ–°æ™‚ã«å®Ÿè¡Œ
     public static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetsPath)
     {
         SetKeepers();
     }
 
-    //ƒƒjƒ…[‚ÉƒAƒCƒeƒ€‚ğ’Ç‰Á
+    //ãƒ¡ãƒ‹ãƒ¥ãƒ¼ã«ã‚¢ã‚¤ãƒ†ãƒ ã‚’è¿½åŠ 
     [MenuItem("Tools/Set Keepers")]
-
-    //ŒÄ‚Ño‚·ŠÖ”
     public static void SetKeepers()
     {
 
-        //ƒL[ƒp[‚ğ”z’u‚·‚é
+        //ã‚­ãƒ¼ãƒ‘ãƒ¼ã‚’é…ç½®ã™ã‚‹
         CheckKeeper("Assets");
 
-        //ƒf[ƒ^ƒx[ƒX‚ğƒŠƒtƒŒƒbƒVƒ…‚·‚é
+        //ãƒ‡ãƒ¼ã‚¿ãƒ™ãƒ¼ã‚¹ã‚’ãƒªãƒ•ãƒ¬ãƒƒã‚·ãƒ¥ã™ã‚‹
         AssetDatabase.Refresh();
 
     }
 
-    //ƒL[ƒp[‚ğ”z’u‚·‚éŠÖ”
     public static void CheckKeeper(string path)
     {
 
-        //ƒfƒBƒŒƒNƒgƒŠƒpƒX‚Ì”z—ñ
+        //ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãƒ‘ã‚¹ã®é…åˆ—
         string[] directories = Directory.GetDirectories(path);
-        //ƒtƒ@ƒCƒ‹ƒpƒX‚Ì”z—ñ
+        //ãƒ•ã‚¡ã‚¤ãƒ«ãƒ‘ã‚¹ã®é…åˆ—
         string[] files = Directory.GetFiles(path);
-        //ƒL[ƒp[‚Ì”z—ñ
+        //ã‚­ãƒ¼ãƒ‘ãƒ¼ã®é…åˆ—
         string[] keepers = Directory.GetFiles(path, keeperName);
 
-        //ƒfƒBƒŒƒNƒgƒŠ‚ª‚ ‚é‚©‚Ç‚¤‚©
+        //ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒã‚ã‚‹ã‹
         bool isDirectoryExist = 0 < directories.Length;
-        //(ƒL[ƒp[ˆÈŠO‚Ì)ƒtƒ@ƒCƒ‹‚ª‚ ‚é‚©‚Ç‚¤‚©
+        //(ã‚­ãƒ¼ãƒ‘ãƒ¼ä»¥å¤–ã®)ãƒ•ã‚¡ã‚¤ãƒ«ãŒã‚ã‚‹ã‹
         bool isFileExist = 0 < (files.Length - keepers.Length);
-        //ƒL[ƒp[‚ª‚ ‚é‚©‚Ç‚¤‚©
+        //ã‚­ãƒ¼ãƒ‘ãƒ¼ãŒã‚ã‚‹ã‹
         bool isKeeperExist = 0 < keepers.Length;
 
-        //ƒfƒBƒŒƒNƒgƒŠ‚àƒtƒ@ƒCƒ‹‚à‚È‚©‚Á‚½‚ç
         if (!isDirectoryExist && !isFileExist)
         {
-            //ƒL[ƒp[‚ª‚È‚©‚Á‚½‚ç
+            //ã‚­ãƒ¼ãƒ‘ãƒ¼ãŒãªã‹ã£ãŸã‚‰
             if (!isKeeperExist)
             {
-                //ƒL[ƒp[‚ğì¬
+                //ã‚­ãƒ¼ãƒ‘ãƒ¼ã‚’ä½œæˆ
                 File.Create(path + "/" + keeperName).Close();
             }
             return;
         }
-        //ƒfƒBƒŒƒNƒgƒŠ‚©ƒtƒ@ƒCƒ‹‚ª‚ ‚Á‚½‚ç
         else
         {
-            //ƒL[ƒp[‚ª‚ ‚Á‚½‚ç
+            //ã‚­ãƒ¼ãƒ‘ãƒ¼ãŒã‚ã£ãŸã‚‰
             if (isKeeperExist)
             {
-                //ƒL[ƒp[‚ğíœ
+                //ã‚­ãƒ¼ãƒ‘ãƒ¼ã‚’å‰Šé™¤
                 File.Delete(path + "/" + keeperName);
             }
         }
 
-        //‚³‚ç‚É[‚¢ŠK‘w‚ğ’Tõ
+        //ã•ã‚‰ã«æ·±ã„éšå±¤ã‚’æ¢ç´¢
         foreach (var directory in directories)
         {
             CheckKeeper(directory);
