@@ -81,6 +81,8 @@ crashlytics-build.properties
 !/[Aa]ssets/[Ss]ettings.meta
 !/[Aa]ssets/[Rr]esources
 !/[Aa]ssets/[Rr]esources.meta
+!/[Aa]ssets/[Ss]treaming[Aa]ssets
+!/[Aa]ssets/[Ss]treaming[Aa]ssets.meta
 !/[Aa]ssets/[Tt]ext[Mm]esh [Pp]ro
 !/[Aa]ssets/[Tt]ext[Mm]esh [Pp]ro.meta
 !/[Aa]ssets/[Uu]niversal[Rr]ender[Pp]ipeline[Gg]lobal[Ss]ettings.asset
